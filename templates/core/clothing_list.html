@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Clothes{% endblock  %}
+
+{% block content %}
+    <h1>Clothes Page</h1>
+    {% if face_photo %}
+        <img src="{{ face_photo.image.url }}" alt="Image of {{ face_photo.user }}" style="width: 200px; height: auto;">
+        <p>{{ face_photo.color_hex }}</p>
+    {% else %}
+        <p>No face photo available.</p>
+    {% endif %}
+
+    {% for clothes in clothing_items %}
+        <img src="{{ clothes.image.url }}" alt="Clothes of {{ clothes.user }}" style="width: 200px; height: auto;">
+        <p>{{ clothes.color_hex }}</p>
+    {% empty %}
+        <p>No clothes available.</p>
+    {% endfor %}
+{% endblock %}

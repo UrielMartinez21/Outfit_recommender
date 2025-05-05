@@ -1,0 +1,110 @@
+import os
+import cv2
+import numpy as np
+from PIL import Image
+from collections import Counter
+
+# ── Helpers ────────────────────────────────────────────────────────────────────
+
+def rgb_to_hex(rgb):
+    """Convert an (R,G,B) tuple to a hex string."""
+    return '#{:02x}{:02x}{:02x}'.format(*rgb)
+
+def most_common_color(pixels):
+    """
+    Given an (N,3) array of RGB pixels, return the most frequent color.
+    """
+    counts = Counter(map(tuple, pixels))
+    return counts.most_common(1)[0][0]
+
+def average_color(pixels):
+    """Compute the average RGB color of an (N,3) array of pixels."""
+    avg = pixels.mean(axis=0).astype(int)
+    return tuple(avg)
+
+# ── Face detection + dominant color ───────────────────────────────────────────
+
+# load the cascade once at import time
+_face_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+)
+
+def get_face_dominant_color(image_path, thumb_size=(100, 100)):
+    img_bgr = cv2.imread(image_path)
+    if img_bgr is None:
+        raise FileNotFoundError(f"Image not found: {image_path}")
+
+    gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
+    faces = _face_cascade.detectMultiScale(
+        gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30)
+    )
+
+    if len(faces) == 0:
+        # fallback to whole image average
+        pixels = np.array(
+            Image.fromarray(cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB))
+        ).reshape(-1, 3)
+        return rgb_to_hex(average_color(pixels))
+
+    # Get the largest face
+    x, y, w, h = max(faces, key=lambda r: r[2] * r[3])
+
+    # Focus on center part of face (avoid hair/edges)
+    margin_w = int(w * 0.2)
+    margin_h = int(h * 0.3)
+    cx, cy = x + margin_w, y + margin_h
+    cw, ch = w - 2 * margin_w, h - 2 * margin_h
+    face_crop = img_bgr[cy:cy+ch, cx:cx+cw]
+
+    # Convert to RGB and resize
+    face_rgb = cv2.cvtColor(face_crop, cv2.COLOR_BGR2RGB)
+    pil_img = Image.fromarray(face_rgb).resize(thumb_size)
+    arr = np.array(pil_img).reshape(-1, 3)
+
+    # Optional: filter likely skin colors (simple rule-based in RGB)
+    skin_pixels = [tuple(px) for px in arr if 45 < px[0] < 255 and 30 < px[1] < 220 and 20 < px[2] < 200]
+    if not skin_pixels:
+        skin_pixels = arr.tolist()  # fallback
+
+    dominant = most_common_color(skin_pixels)
+    return rgb_to_hex(dominant)
+
+# ── GrabCut segmentation + dominant color for clothing ───────────────────────
+
+def get_clothing_dominant_color(image_path, thumb_size=(100,100)):
+    """
+    1) Run GrabCut with an initial rect covering center 80%
+    2) Mask out background pixels
+    3) Resize & compute most common RGB on the foreground.
+    """
+    print(f"Processing {image_path}...")
+    img = cv2.imread(image_path)
+    h, w = img.shape[:2]
+
+    # init mask & models
+    mask     = np.zeros((h, w), np.uint8)
+    bgdModel = np.zeros((1,65), np.float64)
+    fgdModel = np.zeros((1,65), np.float64)
+
+    # rectangle: skip 10% border
+    rect = (int(w*0.1), int(h*0.1), int(w*0.8), int(h*0.8))
+    cv2.grabCut(img, mask, rect, bgdModel, fgdModel, 5, cv2.GC_INIT_WITH_RECT)
+
+    # 0,2 = background; 1,3 = foreground
+    fg_mask = np.where((mask==1)|(mask==3), 1, 0).astype('uint8')
+    fg = img * fg_mask[:,:,None]
+
+    fg_rgb = cv2.cvtColor(fg, cv2.COLOR_BGR2RGB)
+    pil = Image.fromarray(fg_rgb).resize(thumb_size)
+    arr = np.array(pil).reshape(-1,3)
+
+    # drop pure-black pixels (background)
+    arr = arr[np.any(arr!=[0,0,0], axis=1)]
+    if arr.size == 0:
+        # fallback: average over full image
+        arr = np.array(
+            Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        ).reshape(-1,3)
+
+    dom = most_common_color(arr)
+    return rgb_to_hex(dom)
