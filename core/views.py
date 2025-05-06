@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
@@ -97,3 +97,17 @@ def clothing_list(request):
     face_photo = SkinTone.objects.filter(user=request.user).first()
     clothing_items = ClothingItem.objects.filter(user=request.user).all()
     return render(request, 'core/clothing_list.html', {'face_photo': face_photo, 'clothing_items': clothing_items})
+
+
+@login_required()
+def clothing_delete(request, id):
+    clothing_item = get_object_or_404(ClothingItem, id=id, user=request.user)
+    if request.method == 'POST':
+        # delete the clothing item from the database
+        clothing_item.delete()
+
+        # delete the image file from the filesystem
+        clothing_item.image.delete(save=False)
+
+        return redirect('clothing_list')
+    return render(request, 'core/crud_clothes/confirm_delete.html', {'item': clothing_item})

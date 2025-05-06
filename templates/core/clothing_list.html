@@ -1,20 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Clothes{% endblock  %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/clothing_list.css' %}">
+{% endblock %}
 
 {% block content %}
     <h1>Clothes Page</h1>
     {% if face_photo %}
+        <h2>Face Photo</h2>
         <img src="{{ face_photo.image.url }}" alt="Image of {{ face_photo.user }}" style="width: 200px; height: auto;">
-        <p>{{ face_photo.color_hex }}</p>
     {% else %}
         <p>No face photo available.</p>
     {% endif %}
 
-    {% for clothes in clothing_items %}
-        <img src="{{ clothes.image.url }}" alt="Clothes of {{ clothes.user }}" style="width: 200px; height: auto;">
-        <p>{{ clothes.color_hex }}</p>
-    {% empty %}
-        <p>No clothes available.</p>
-    {% endfor %}
+    <h2>Clothing Items</h2>
+    <div class="clothing-list">
+        {% for clothes in clothing_items %}
+            <div class="clothing-item">
+                <img src="{{ clothes.image.url }}" alt="Clothes of {{ clothes.user }}" style="width: 200px; height: auto;">
+                <a href="{% url 'clothing_delete' clothes.id %}">Delete Item</a>
+            </div>
+        {% empty %}
+            <p>No clothes available.</p>
+        {% endfor %}
+    </div>
 {% endblock %}

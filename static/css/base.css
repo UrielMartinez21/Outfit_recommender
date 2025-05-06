@@ -1,116 +1,121 @@
-/* ── Reset and base styles ───────────────────── */
+/* ── Reset and base ───────────────────────────── */
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f6f8;
-    color: #333;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+    font-size: 16px;
     line-height: 1.6;
-    padding: 0;
-    margin: 0;
 }
 
-/* ── Navigation menu ─────────────────────────── */
+/* ── Navigation Menu ──────────────────────────── */
 .menu {
-    background-color: #2c3e50;
-    padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 12px 24px;
 }
 
 .menu nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 16px;
 }
 
 .menu nav ul li a {
-    color: #ecf0f1;
+    color: #1f2937;
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
 }
 
 .menu nav ul li a:hover {
-    color: #1abc9c;
+    background-color: #f3f4f6;
 }
 
-/* ── Content area ────────────────────────────── */
+/* ── Page Content ─────────────────────────────── */
 .content {
-    max-width: 800px;
+    max-width: 720px;
     margin: 40px auto;
-    padding: 20px;
+    padding: 24px;
     background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
 }
 
-/* ── Forms ───────────────────────────────────── */
+/* ── Forms ────────────────────────────────────── */
 form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
 }
 
 form label {
-    font-weight: 600;
+    font-weight: 500;
+    color: #374151;
 }
 
 form input[type="file"],
 form input[type="text"],
 form select {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #d1d5db;
     border-radius: 6px;
+    background-color: #ffffff;
+    font-size: 15px;
 }
 
 form button {
-    background-color: #1abc9c;
+    background-color: #3b82f6;
     color: white;
     border: none;
     padding: 12px;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 500;
     transition: background-color 0.3s;
 }
 
 form button:hover {
-    background-color: #16a085;
+    background-color: #2563eb;
 }
 
-/* ── Table styles ────────────────────────────── */
+/* ── Table ────────────────────────────────────── */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 15px;
 }
 
 table th,
 table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 table th {
-    background-color: #f0f0f0;
+    background-color: #f3f4f6;
+    text-align: left;
+    font-weight: 600;
 }
 
-/* ── Messages or alerts ──────────────────────── */
+/* ── Alerts / Messages ────────────────────────── */
 .message {
-    padding: 10px;
-    background-color: #dff0d8;
-    border-left: 5px solid #3c763d;
-    color: #3c763d;
+    padding: 12px;
+    background-color: #e0f2fe;
+    border-left: 4px solid #38bdf8;
+    color: #0369a1;
     margin-bottom: 20px;
     border-radius: 6px;
 }
 
-/* ── Responsive ──────────────────────────────── */
+/* ── Responsive ───────────────────────────────── */
 @media (max-width: 600px) {
     .menu nav ul {
         flex-direction: column;
@@ -118,6 +123,6 @@ table th {
 
     .content {
         margin: 20px;
-        padding: 15px;
+        padding: 16px;
     }
 }
