@@ -7,7 +7,7 @@ class SkinToneAdmin(admin.ModelAdmin):
     list_display = ['user', 'color_hex']
     search_fields = ['user']
     list_filter = ['user']
-    ordering = ['-user']
+    ordering = ['user']
 
 
 @admin.register(ClothingItem)
@@ -15,4 +15,4 @@ class ClothingItemAdmin(admin.ModelAdmin):
     list_display = ['user', 'category', 'color_hex']
     search_fields = ['user', 'category']
     list_filter = ['user', 'category']
-    ordering = ['-user']
+    ordering = ['user', 'category']

@@ -111,3 +111,16 @@ def clothing_delete(request, id):
 
         return redirect('clothing_list')
     return render(request, 'core/crud_clothes/confirm_delete.html', {'item': clothing_item})
+
+
+@login_required()
+def recommender(request):
+    clothing_items = None
+    if request.method == 'POST':
+        face_photo = SkinTone.objects.filter(user=request.user).first()
+        clothing_items = ClothingItem.objects.filter(user=request.user).all()
+
+        if not face_photo or not clothing_items:
+            return render(request, 'core/recommender.html', {'error': 'Please upload a face photo and clothing items first.'})
+
+    return render(request, 'core/recommender.html', {'clothing_items': clothing_items})
