@@ -85,7 +85,12 @@ def facephoto_delete(request, id):
 
 @login_required()
 def clothing(request):
-    clothing_items = ClothingItem.objects.filter(user=request.user).all()
+    accessories = ClothingItem.accessories.filter(user=request.user).all()
+    tops = ClothingItem.tops.filter(user=request.user).all()
+    legs = ClothingItem.legs.filter(user=request.user).all()
+    feet = ClothingItem.feet.filter(user=request.user).all()
+
+    clothing_items = list(accessories) + list(tops) + list(legs) + list(feet)
 
     if request.method == 'POST':
         form = ClothingItemForm(request.POST, request.FILES)

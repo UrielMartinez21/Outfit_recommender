@@ -28,6 +28,26 @@ class SkinTone(models.Model):
         return f"{self.user.username}'s skin tone"
 
 
+class AccessoryManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(category=ClothingItem.Category.ACCESSORY)
+
+
+class TopManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(category=ClothingItem.Category.TOP)
+
+
+class LegsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(category=ClothingItem.Category.LEGS)
+
+
+class FeetManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(category=ClothingItem.Category.FEET)
+
+
 class ClothingItem(models.Model):
     class Category(models.TextChoices):
         ACCESSORY = 'accessory', 'Accessory'
@@ -40,10 +60,16 @@ class ClothingItem(models.Model):
     category = models.CharField(max_length=10, choices=Category)
     color_hex = models.CharField(max_length=7, blank=True)
 
+    objects = models.Manager()
+    accessories = AccessoryManager()
+    tops = TopManager()
+    legs = LegsManager()
+    feet = FeetManager()
+
     class Meta:
-        ordering = ['-user']
+        ordering = ['user', 'category']
         indexes = [
-            models.Index(fields=['-user']),
+            models.Index(fields=['user', 'category']),
         ]
 
     def __str__(self):
