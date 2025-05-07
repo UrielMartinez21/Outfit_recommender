@@ -46,7 +46,8 @@ def dashboard(request):
 
 
 @login_required()
-def upload_skincolor(request):
+def skincolor(request):
+    face_photo = SkinTone.objects.filter(user=request.user).first()
     if request.method == 'POST':
         form = SkinToneForm(request.POST, request.FILES)
         if form.is_valid():
@@ -63,14 +64,29 @@ def upload_skincolor(request):
             # 4) persist just the color change
             skin.save(update_fields=['color_hex'])
 
-            return redirect('clothing_list')
+            return redirect('skincolor')
     else:
         form = SkinToneForm()
-    return render(request, 'core/upload_skincolor.html', {'form': form})
+    return render(request, 'core/skincolor.html', {'form': form, 'face_photo': face_photo})
+
+
+def facephoto_delete(request, id):
+    face_photo = get_object_or_404(SkinTone, id=id, user=request.user)
+    if request.method == 'POST':
+        # delete the face photo from the database
+        face_photo.delete()
+
+        # delete the image file from the filesystem
+        face_photo.image.delete(save=False)
+
+        return redirect('skincolor')
+    return render(request, 'core/crud_skincolor/confirm_delete.html', {'face_photo': face_photo})
 
 
 @login_required()
-def upload_clothing(request):
+def clothing(request):
+    clothing_items = ClothingItem.objects.filter(user=request.user).all()
+
     if request.method == 'POST':
         form = ClothingItemForm(request.POST, request.FILES)
         if form.is_valid():
@@ -86,17 +102,10 @@ def upload_clothing(request):
             # Save the color_hex field
             cloth.save(update_fields=['color_hex'])
 
-            return redirect('clothing_list')
+            return redirect('clothing')
     else:
         form = ClothingItemForm()
-    return render(request, 'core/upload_clothes.html', {'form': form})
-
-
-@login_required()
-def clothing_list(request):
-    face_photo = SkinTone.objects.filter(user=request.user).first()
-    clothing_items = ClothingItem.objects.filter(user=request.user).all()
-    return render(request, 'core/clothing_list.html', {'face_photo': face_photo, 'clothing_items': clothing_items})
+    return render(request, 'core/clothing.html', {'form': form, 'clothing_items': clothing_items})
 
 
 @login_required()

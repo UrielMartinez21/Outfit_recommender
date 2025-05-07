@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Upload clothes{% endblock  %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/clothing.css' %}">
+{% endblock %}
+
+{% block content %}
+    <!-- section to upload clothes -->
+    <div>
+        <h2>Upload clothes</h2>
+        <form method="post" enctype="multipart/form-data" class="upload_clothing">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+    <!-- section to upload clothes -->
+
+    <!-- section to display the clothing items -->
+    <div>
+        <h2>Clothing Items</h2>
+        <div class="clothing-list">
+            {% for clothes in clothing_items %}
+                <div class="clothing-item">
+                    <img src="{{ clothes.image.url }}" alt="Clothes of {{ clothes.user }}" style="width: 200px; height: 200px;">
+                    <a href="{% url 'clothing_delete' clothes.id %}">Delete Item</a>
+                </div>
+            {% empty %}
+                <p>No clothes available.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- section to display the clothing items -->
+{% endblock %}

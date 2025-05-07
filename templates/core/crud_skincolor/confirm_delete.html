@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Face photo{% endblock %}
+
+{% block content %}
+    <h2>Delete face photo</h2>
+    <p>Are you sure you want to delete your face photo?</p>
+    <img src="{{ face_photo.image.url }}" alt="{{ face_photo.user }}" width="200"><br><br>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="delete-button">Yes, delete</button>
+        <a href="{% url 'skincolor' %}" class="cancel-button">Cancel</a>
+    </form>
+{% endblock %}

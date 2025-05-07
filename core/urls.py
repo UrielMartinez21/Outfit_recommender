@@ -8,10 +8,10 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
 
-    path('upload_skincolor/', views.upload_skincolor, name='upload_skincolor'),
-    path('upload_clothing/', views.upload_clothing, name='upload_clothing'),
-    path('clothing_list/', views.clothing_list, name='clothing_list'),
-    # Crud operations for clothing items
+    path('skincolor/', views.skincolor, name='skincolor'),
+    path('facephoto_delete/<int:id>/', views.facephoto_delete, name='facephoto_delete'),
+
+    path('clothing/', views.clothing, name='clothing'),
     path('clothing_list/<int:id>/delete/', views.clothing_delete, name='clothing_delete'),
 
     # recommender
