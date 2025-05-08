@@ -1,18 +1,3 @@
-/* ── Page Heading ───────────────────────────── */
-h1 {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #1f2937;
-}
-
-h2 {
-    font-size: 22px;
-    margin-top: 30px;
-    margin-bottom: 16px;
-    color: #374151;
-}
-
 /* ── Clothing List Grid ─────────────────────── */
 .clothing-list {
     display: grid;
@@ -40,26 +25,4 @@ h2 {
     max-width: 100%;
     border-radius: 6px;
     margin-bottom: 12px;
-}
-
-/* ── Delete Button / Link ───────────────────── */
-.clothing-item a {
-    display: inline-block;
-    padding: 8px 14px;
-    background-color: #ef4444;
-    color: #ffffff;
-    font-weight: 500;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.clothing-item a:hover {
-    background-color: #dc2626;
-}
-
-/* ── No Data Text ───────────────────────────── */
-p {
-    color: #6b7280;
-    font-size: 15px;
 }

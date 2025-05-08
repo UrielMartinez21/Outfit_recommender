@@ -26,10 +26,10 @@
             {% for clothes in clothing_items %}
                 <div class="clothing-item">
                     <img src="{{ clothes.image.url }}" alt="Clothes of {{ clothes.user }}" style="width: 200px; height: 200px;">
-                    <a href="{% url 'clothing_delete' clothes.id %}">Delete Item</a>
+                    <a href="{% url 'clothing_delete' clothes.id %}" class="delete-button">Delete Item</a>
                 </div>
             {% empty %}
-                <p>No clothes available.</p>
+                <p class="no-information">No clothes available.</p>
             {% endfor %}
         </div>
     </div>
