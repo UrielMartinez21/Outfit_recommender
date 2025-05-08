@@ -1,0 +1,93 @@
+/* --> Confirmation container */
+.delete-confirmation {
+    max-width: 500px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    text-align: center;
+}
+
+/* --> Heading */
+.delete-confirmation h2 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+/* --> Text message */
+.delete-confirmation p {
+    font-size: 1rem;
+    color: #374151;
+    margin-bottom: 1.5rem;
+}
+
+/* --> Image preview */
+.delete-confirmation img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* --> Button group */
+.delete-confirmation form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* --> Delete button */
+.delete-button {
+    background-color: #ef4444;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #dc2626;
+}
+
+/* --> Cancel link */
+.cancel-button {
+    background-color: #e5e7eb;
+    color: #374151;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: #d1d5db;
+}
+
+/* --> Responsive */
+@media (max-width: 480px) {
+    .delete-confirmation {
+        padding: 1.5rem;
+    }
+
+    .delete-confirmation img {
+        width: 100%;
+        height: auto;
+    }
+
+    .delete-button,
+    .cancel-button {
+        width: 100%;
+        text-align: center;
+    }
+}

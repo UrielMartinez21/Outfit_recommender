@@ -9,7 +9,7 @@
 
 {% block content %}
     <!-- section to upload clothes -->
-    <div>
+    <div class="upload-section">
         <h2>Upload clothes</h2>
         <form method="post" enctype="multipart/form-data" class="upload_clothing">
             {% csrf_token %}
@@ -20,7 +20,7 @@
     <!-- section to upload clothes -->
 
     <!-- section to display the clothing items -->
-    <div>
+    <div class="clothing-section">
         <h2>Clothing Items</h2>
         <div class="clothing-list">
             {% for clothes in clothing_items %}
