@@ -102,7 +102,7 @@ def hue_distance(h1, h2):
     return min(abs(h1 - h2), 360 - abs(h1 - h2))
 
 
-def is_complementary(h1, h2, tolerance=20):
+def is_complementary(h1, h2, tolerance=10):
     """Complementary: hues ≈180° apart."""
     return abs(hue_distance((h1 + 180) % 360, h2)) <= tolerance
 
