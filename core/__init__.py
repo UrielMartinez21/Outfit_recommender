@@ -4,30 +4,23 @@ import numpy as np
 from PIL import Image
 from collections import Counter
 
-# ── Helpers ────────────────────────────────────────────────────────────────────
+# --> Helpers
 
 def rgb_to_hex(rgb):
-    """Convert an (R,G,B) tuple to a hex string."""
     return '#{:02x}{:02x}{:02x}'.format(*rgb)
 
 def most_common_color(pixels):
-    """
-    Given an (N,3) array of RGB pixels, return the most frequent color.
-    """
     counts = Counter(map(tuple, pixels))
     return counts.most_common(1)[0][0]
 
 def average_color(pixels):
-    """Compute the average RGB color of an (N,3) array of pixels."""
     avg = pixels.mean(axis=0).astype(int)
     return tuple(avg)
 
-# ── Face detection + dominant color ───────────────────────────────────────────
+# --> Face detection + dominant color
 
 # load the cascade once at import time
-_face_cascade = cv2.CascadeClassifier(
-    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-)
+_face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 def get_face_dominant_color(image_path, thumb_size=(100, 100)):
     img_bgr = cv2.imread(image_path)
@@ -69,15 +62,9 @@ def get_face_dominant_color(image_path, thumb_size=(100, 100)):
     dominant = most_common_color(skin_pixels)
     return rgb_to_hex(dominant)
 
-# ── GrabCut segmentation + dominant color for clothing ───────────────────────
+# --> GrabCut segmentation + dominant color for clothing
 
 def get_clothing_dominant_color(image_path, thumb_size=(100,100)):
-    """
-    1) Run GrabCut with an initial rect covering center 80%
-    2) Mask out background pixels
-    3) Resize & compute most common RGB on the foreground.
-    """
-    print(f"Processing {image_path}...")
     img = cv2.imread(image_path)
     h, w = img.shape[:2]
 
@@ -108,3 +95,54 @@ def get_clothing_dominant_color(image_path, thumb_size=(100,100)):
 
     dom = most_common_color(arr)
     return rgb_to_hex(dom)
+
+# --> For match clothing
+def hue_distance(h1, h2):
+    """Return the shortest distance between two hues (0–360)."""
+    return min(abs(h1 - h2), 360 - abs(h1 - h2))
+
+
+def is_complementary(h1, h2, tolerance=20):
+    """Complementary: hues ≈180° apart."""
+    return abs(hue_distance((h1 + 180) % 360, h2)) <= tolerance
+
+
+def is_analogous(h1, h2, tolerance=30):
+    """Analogous: hues within ±30° on the wheel."""
+    return hue_distance(h1, h2) <= tolerance
+
+
+def is_triadic(h1, h2, tolerance=20):
+    """Triadic: hues ≈120° or ≈240° apart."""
+    return any(
+        abs(hue_distance((h1 + offset) % 360, h2)) <= tolerance
+        for offset in (120, 240)
+    )
+
+
+def is_monochromatic(h1, h2, s1, s2, l1, l2, hue_tol=10, sl_tol=15):
+    """Monochromatic: same hue ±hue_tol, similar sat/lightness."""
+    return (
+        hue_distance(h1, h2) <= hue_tol and
+        abs(s1 - s2) <= sl_tol and
+        abs(l1 - l2) <= sl_tol
+    )
+
+
+def get_matching_clothing(skin_hsl, clothing_items, strategy='analogous'):
+    matched = []
+    h1, s1, l1 = skin_hsl
+
+    for item in clothing_items:
+        h2, s2, l2 = item.hex_to_hsl()
+
+        if strategy == 'complementary' and is_complementary(h1, h2):
+            matched.append(item)
+        elif strategy == 'analogous' and is_analogous(h1, h2):
+            matched.append(item)
+        elif strategy == 'triadic' and is_triadic(h1, h2):
+            matched.append(item)
+        elif strategy == 'monochromatic' and is_monochromatic(h1, h2, s1, s2, l1, l2):
+            matched.append(item)
+
+    return matched
