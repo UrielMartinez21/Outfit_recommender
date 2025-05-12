@@ -90,7 +90,12 @@ def clothing(request):
     legs = ClothingItem.legs.filter(user=request.user).all()
     feet = ClothingItem.feet.filter(user=request.user).all()
 
-    clothing_items = list(accessories) + list(tops) + list(legs) + list(feet)
+    clothing_items = {
+        'accessories': accessories,
+        'tops': tops,
+        'legs': legs,
+        'feet': feet
+    }
 
     if request.method == 'POST':
         form = ClothingItemForm(request.POST, request.FILES)
