@@ -15,5 +15,5 @@ urlpatterns = [
     path('clothing_list/<int:id>/delete/', views.clothing_delete, name='clothing_delete'),
 
     # recommender
-    path('based_on_skintone', views.based_on_skintone, name='based_on_skintone'),
+    path('based_on_skintone/', views.based_on_skintone, name='based_on_skintone'),
 ]
