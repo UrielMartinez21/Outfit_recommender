@@ -8,10 +8,8 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Recommender Based on Skin Tone</h1>
-
     <!-- Harmony strategy form -->
-    <section class="harmony-form">
+    <section>
         <form method="post">
             {% csrf_token %}
             <label for="skin_tone">Select color harmony strategy:</label>
@@ -28,7 +26,7 @@
 
     <!-- Skin Tone -->
     {% if clothing_items.skin_tone %}
-        <section class="skin-tone">
+        <section>
             <h2>Skin tone:</h2>
             <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                 <span style="width: 1.5rem; height: 1.5rem; border-radius: 0.25rem; background-color: {{ clothing_items.skin_tone }}; border: 1px solid #ccc;" title="{{ clothing_items.skin_tone }}"></span>
@@ -37,7 +35,7 @@
     {% endif %}
 
     <!-- Accessories -->
-    <section class="clothing-category">
+    <section>
         <h2>Accessories</h2>
         <div class="clothing-items">
             {% for item in clothing_items.accessories %}
@@ -46,13 +44,13 @@
                     <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
                 </div>
             {% empty %}
-                <p>No accessories found.</p>
+                <p class="no-information">No accessories found.</p>
             {% endfor %}
         </div>
     </section>
 
     <!-- Tops -->
-    <section class="clothing-category">
+    <section>
         <h2>Tops</h2>
         <div class="clothing-items">
             {% for item in clothing_items.tops %}
@@ -61,13 +59,13 @@
                     <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
                 </div>
             {% empty %}
-                <p>No tops found.</p>
+                <p class="no-information">No tops found.</p>
             {% endfor %}
         </div>
     </section>
 
     <!-- Legs -->
-    <section class="clothing-category">
+    <section>
         <h2>Legs</h2>
         <div class="clothing-items">
             {% for item in clothing_items.legs %}
@@ -76,13 +74,13 @@
                     <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
                 </div>
             {% empty %}
-                <p>No legs found.</p>
+                <p class="no-information">No legs found.</p>
             {% endfor %}
         </div>
     </section>
 
     <!-- Feet -->
-    <section class="clothing-category">
+    <section>
         <h2>Feet</h2>
         <div class="clothing-items">
             {% for item in clothing_items.feet %}
@@ -91,7 +89,7 @@
                     <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
                 </div>
             {% empty %}
-                <p>No feet found.</p>
+                <p class="no-information">No feet found.</p>
             {% endfor %}
         </div>
     </section>

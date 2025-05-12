@@ -1,13 +1,7 @@
 /* --> Clothing category wrapper */
-.clothing-category {
+/* .clothing-category {
     margin-top: 2.5rem;
-}
-
-.clothing-category h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: #1f2937;
-}
+} */
 
 /* --> Grid of items */
 .clothing-items {
@@ -42,14 +36,6 @@
     border-radius: 0.25rem;
     border: 1px solid #ccc;
     margin: 0.5rem auto 0;
-}
-
-/* --> Empty state */
-p {
-    text-align: center;
-    color: #6b7280;
-    font-size: 0.95rem;
-    margin: 1rem 0;
 }
 
 /* --> Responsive layout */

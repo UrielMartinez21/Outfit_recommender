@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Upload face photo -->
     {% if not face_photo %}
         <div class="form-skincolor">
             <h2>Upload skincolor</h2>
@@ -18,6 +19,9 @@
             </form>
         </div>
     {% endif %}
+    <!-- Upload face photo -->
+
+    <!-- Skincolor information -->
     {% if face_photo %}
         <div class="skincolor-info">
             <h2>Face Photo</h2>
@@ -28,4 +32,5 @@
             <a href="{% url 'facephoto_delete' face_photo.id %}" class="delete-button">Delete Face Photo</a>
         </div>
     {% endif %}
+    <!-- Skincolor information -->
 {% endblock %}
