@@ -97,6 +97,7 @@ def get_clothing_dominant_color(image_path, thumb_size=(100,100)):
     return rgb_to_hex(dom)
 
 # --> For match clothing
+
 def hue_distance(h1, h2):
     """Return the shortest distance between two hues (0–360)."""
     return min(abs(h1 - h2), 360 - abs(h1 - h2))
@@ -129,20 +130,55 @@ def is_monochromatic(h1, h2, s1, s2, l1, l2, hue_tol=10, sl_tol=15):
     )
 
 
-def get_matching_clothing(skin_hsl, clothing_items, strategy='analogous'):
-    matched = []
-    h1, s1, l1 = skin_hsl
+def get_clothing_based_on_skin_tone(skin_tone, clothing_queryset, strategy=None):
+    if not skin_tone.color_hex:
+        return {'message': False, 'error': 'No skin tone color found.'}
 
-    for item in clothing_items:
+    if not clothing_queryset:
+        return {'message': False, 'error': 'No clothing items found.'}
+    
+    if not strategy:
+        return {'message': False, 'error': 'No strategy provided.'}
+
+    h1, s1, l1 = skin_tone.hex_to_hsl()
+
+    # Categorize items
+    accessories = []
+    tops = []
+    legs = []
+    feet = []
+
+    for item in clothing_queryset:
         h2, s2, l2 = item.hex_to_hsl()
 
-        if strategy == 'complementary' and is_complementary(h1, h2):
-            matched.append(item)
-        elif strategy == 'analogous' and is_analogous(h1, h2):
-            matched.append(item)
-        elif strategy == 'triadic' and is_triadic(h1, h2):
-            matched.append(item)
-        elif strategy == 'monochromatic' and is_monochromatic(h1, h2, s1, s2, l1, l2):
-            matched.append(item)
+        match = False
+        if strategy == 'complementary':
+            match = is_complementary(h1, h2)
+        elif strategy == 'analogous':
+            match = is_analogous(h1, h2)
+        elif strategy == 'triadic':
+            match = is_triadic(h1, h2)
+        elif strategy == 'monochromatic':
+            match = is_monochromatic(h1, h2, s1, s2, l1, l2)
 
-    return matched
+        if match:
+            if item.category == 'accessory':
+                accessories.append(item)
+            elif item.category == 'top':
+                tops.append(item)
+            elif item.category == 'legs':
+                legs.append(item)
+            elif item.category == 'feet':
+                feet.append(item)
+
+    # dict of lists
+    categorized_items = {
+        'message': True,
+        'accessories': accessories,
+        'tops': tops,
+        'legs': legs,
+        'feet': feet,
+        'skin_tone': skin_tone.color_hex,
+    }
+
+    return categorized_items

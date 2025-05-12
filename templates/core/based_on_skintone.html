@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Based on SkinTone{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/based_on_skintone.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Recommender based on SkinTone</h1>
+
+    <!-- Form to choose harmony strategy -->
+    <form method="post">
+        {% csrf_token %}
+        <label for="skin_tone">Select color harmony strategy:</label>
+        <select id="skin_tone" name="skin_tone">
+            <option>Choose an option</option>
+            <option value="complementary">Complementary</option>
+            <option value="analogous">Analogous</option>
+            <option value="triadic">Triadic</option>
+            <option value="monochromatic">Monochromatic</option>
+        </select>
+        <button type="submit">Get Recommendations</button>
+    </form>
+    <!-- Form to choose harmony strategy -->
+
+    <!-- Skin Tone -->
+    {% if clothing_items.skin_tone %}
+        <h2>Skin tone: {{ clothing_items.skin_tone }}</h2>
+    {% endif %}
+    <!-- Skin Tone -->
+
+    <!-- Accessories -->
+    <div class="clothing-category">
+        <h2>Accessories</h2>
+        <div class="clothing-items">
+            {% for accessory in clothing_items.accessories %}
+                <div class="clothing-item">
+                    <img src="{{ accessory.image.url }}" alt="{{ accessory.name }}">
+                </div>
+            {% empty %}
+                <p>No accessories found.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Accessories -->
+
+    <!-- Tops -->
+    <div class="clothing-category">
+        <h2>Tops</h2>
+        <div class="clothing-items">
+            {% for top in clothing_items.tops %}
+                <div class="clothing-item">
+                    <img src="{{ top.image.url }}" alt="{{ top.name }}">
+                </div>
+                {% empty %}
+                <p>No tops found.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Tops -->
+    
+    <!-- Legs -->
+    <div class="clothing-category">
+        <h2>Legs</h2>
+        <div class="clothing-items">
+            {% for leg in clothing_items.legs %}
+                <div class="clothing-item">
+                    <img src="{{ leg.image.url }}" alt="{{ leg.name }}">
+                </div>
+            {% empty %}
+                <p>No legs found.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Legs -->
+    
+    <!-- Feet -->
+    <div class="clothing-category">
+        <h2>Feet</h2>
+        <div class="clothing-items">
+            {% for foot in clothing_items.feet %}
+                <div class="clothing-item">
+                    <img src="{{ foot.image.url }}" alt="{{ foot.name }}">
+                    <br>
+                </div>
+                {% empty %}
+                <p>No feet found.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Feet -->
+
+{% endblock %}

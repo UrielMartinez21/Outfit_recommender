@@ -1,9 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
-from core import get_face_dominant_color, get_clothing_dominant_color
+from core import *
 from .forms import LoginForm, SkinToneForm, ClothingItemForm
 from .models import SkinTone, ClothingItem
 
@@ -128,13 +128,24 @@ def clothing_delete(request, id):
 
 
 @login_required()
-def recommender(request):
+def based_on_skintone(request):
     clothing_items = None
+
     if request.method == 'POST':
+        # Get basic data
         face_photo = SkinTone.objects.filter(user=request.user).first()
         clothing_items = ClothingItem.objects.filter(user=request.user).all()
 
         if not face_photo or not clothing_items:
-            return render(request, 'core/recommender.html', {'error': 'Please upload a face photo and clothing items first.'})
+            return HttpResponseBadRequest('No face photo or clothing items found.')
 
-    return render(request, 'core/recommender.html', {'clothing_items': clothing_items})
+        clothing_items = get_clothing_based_on_skin_tone(
+            face_photo,
+            clothing_items,
+            strategy = request.POST.get('skin_tone')
+        )
+
+        if not clothing_items['message']:
+            return HttpResponseBadRequest(clothing_items['error'])
+
+    return render(request, 'core/based_on_skintone.html', {'clothing_items': clothing_items})
