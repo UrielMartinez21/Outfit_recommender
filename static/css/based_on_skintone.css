@@ -96,6 +96,14 @@ h2 {
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
+.color-swatch {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+    margin: 0.5rem auto 0;
+}
+
 /* --> Empty state */
 p {
     text-align: center;
