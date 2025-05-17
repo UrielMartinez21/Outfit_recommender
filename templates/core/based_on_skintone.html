@@ -35,63 +35,63 @@
     {% endif %}
 
     <!-- Accessories -->
-    <section>
-        <h2>Accessories</h2>
-        <div class="clothing-items">
-            {% for item in clothing_items.accessories %}
-                <div class="clothing-item">
-                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
-                    <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
-                </div>
-            {% empty %}
-                <p class="no-information">No accessories found.</p>
-            {% endfor %}
-        </div>
-    </section>
+    {% if clothing_items.accessories %}
+        <section>
+            <h2>Accessories</h2>
+            <div class="clothing-items">
+                {% for item in clothing_items.accessories %}
+                    <div class="clothing-item">
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                        <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
     <!-- Tops -->
-    <section>
-        <h2>Tops</h2>
-        <div class="clothing-items">
-            {% for item in clothing_items.tops %}
-                <div class="clothing-item">
-                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
-                    <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
-                </div>
-            {% empty %}
-                <p class="no-information">No tops found.</p>
-            {% endfor %}
-        </div>
-    </section>
+    {% if clothing_items.tops %}
+        <section>
+            <h2>Tops</h2>
+            <div class="clothing-items">
+                {% for item in clothing_items.tops %}
+                    <div class="clothing-item">
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                        <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
     <!-- Legs -->
-    <section>
-        <h2>Legs</h2>
-        <div class="clothing-items">
-            {% for item in clothing_items.legs %}
-                <div class="clothing-item">
-                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
-                    <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
-                </div>
-            {% empty %}
-                <p class="no-information">No legs found.</p>
-            {% endfor %}
-        </div>
-    </section>
+    {% if clothing_items.legs %}
+        <section>
+            <h2>Legs</h2>
+            <div class="clothing-items">
+                {% for item in clothing_items.legs %}
+                    <div class="clothing-item">
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                        <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
     <!-- Feet -->
-    <section>
-        <h2>Feet</h2>
-        <div class="clothing-items">
-            {% for item in clothing_items.feet %}
-                <div class="clothing-item">
-                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
-                    <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
-                </div>
-            {% empty %}
-                <p class="no-information">No feet found.</p>
-            {% endfor %}
-        </div>
-    </section>
+    {% if clothing_items.feet %}
+        <section>
+            <h2>Feet</h2>
+            <div class="clothing-items">
+                {% for item in clothing_items.feet %}
+                    <div class="clothing-item">
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                        <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
 {% endblock %}
