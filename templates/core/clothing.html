@@ -25,7 +25,8 @@
         <div class="clothing-list">
             {% for item in clothing_items.accessories %}
                 <div class="clothing-item">
-                    <img src="{{ item.image.url }}" alt="Clothes of {{ item.user }}" style="width: 200px; height: 200px;">
+                    <img src="{{ item.image.url }}" alt="Clothes of {{ item.user }}">
+                    <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
                     <a href="{% url 'clothing_delete' item.id %}" class="delete-button">Delete Item</a>
                 </div>
             {% empty %}
@@ -41,7 +42,8 @@
         <div class="clothing-list">
             {% for item in clothing_items.tops %}
                 <div class="clothing-item">
-                    <img src="{{ item.image.url }}" alt="Clothes of {{ item.user }}" style="width: 200px; height: 200px;">
+                    <img src="{{ item.image.url }}" alt="Clothes of {{ item.user }}">
+                    <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
                     <a href="{% url 'clothing_delete' item.id %}" class="delete-button">Delete Item</a>
                 </div>
             {% empty %}
@@ -57,7 +59,8 @@
         <div class="clothing-list">
             {% for item in clothing_items.legs %}
                 <div class="clothing-item">
-                    <img src="{{ item.image.url }}" alt="Clothes of {{ item.user }}" style="width: 200px; height: 200px;">
+                    <img src="{{ item.image.url }}" alt="Clothes of {{ item.user }}">
+                    <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
                     <a href="{% url 'clothing_delete' item.id %}" class="delete-button">Delete Item</a>
                 </div>
             {% empty %}
@@ -73,7 +76,8 @@
         <div class="clothing-list">
             {% for item in clothing_items.feet %}
                 <div class="clothing-item">
-                    <img src="{{ item.image.url }}" alt="Clothes of {{ item.user }}" style="width: 200px; height: 200px;">
+                    <img src="{{ item.image.url }}" alt="Clothes of {{ item.user }}">
+                    <div class="color-swatch" style="background-color: {{ item.color_hex|default:'#ccc' }};" title="{{ item.color_hex }}"></div>
                     <a href="{% url 'clothing_delete' item.id %}" class="delete-button">Delete Item</a>
                 </div>
             {% empty %}

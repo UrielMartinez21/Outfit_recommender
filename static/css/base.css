@@ -119,10 +119,19 @@ form button:hover {
     text-align: center;
 }
 
+/* -------------------> Color swatches */
+.color-swatch {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+    margin: 0.5rem auto;
+}
+
 /* -------------------> Delete button */
 .delete-button {
     display: inline-block;
-    padding: 0.8rem 1rem;
+    padding: 0.5rem 1rem;
     background-color: #ef4444;
     color: white;
     border-radius: 6px;
@@ -139,7 +148,7 @@ form button:hover {
 .cancel-button {
     background-color: #e5e7eb;
     color: #374151;
-    padding: 0.8rem 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
     font-weight: 500;
     text-decoration: none;
