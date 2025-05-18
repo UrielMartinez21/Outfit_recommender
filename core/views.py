@@ -128,7 +128,7 @@ def clothing_delete(request, id):
         # delete the image file from the filesystem
         clothing_item.image.delete(save=False)
 
-        return redirect('clothing_list')
+        return redirect('clothing')
     return render(request, 'core/crud_clothes/confirm_delete.html', {'item': clothing_item})
 
 
